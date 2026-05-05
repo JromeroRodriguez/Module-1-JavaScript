@@ -1,49 +1,73 @@
-//variable global url API para obtener los personajes
-const url_api = "https://rickandmortyapi.com/api/character";
-const response = requestData(url_api); 
 
-//hace la peticion a la API 
+const url_api = "https://rickandmortyapi.com/api/character";
+
+/** 
+* requestData 
+* send request to Endpoint
+* @param {string} url_api
+*
+*
+*/
+
+
 async function requestData(url_api) {
     const response = await fetch(url_api); //espera la respuesta de la API
     let data = await response.json(); //espera la respuesta de la API en formato json
-    console.log(data.results); //muestra los resultados de la API
-    let info = data.info; //obtiene la informacion de la API
-
-    //obtiene la informacion de la API boton
-    const button = document.getElementById("loadMore");
-    button.setAttribute("data-next", (info.next==null)?'':info.next); //obtiene la informacion de la API boton
-    button.setAttribute("data-prev", (info.prev==null)?'':info.prev); //obtiene la informacion de la API boton
+    getElementButton(document, 'set', data.info); //obtiene la informacion de la API boton
+    renderHtml(data); 
     
-    //obtiene la cantidad de personajes
-    let resultCount = data.results.length; //obtiene la cantidad de personajes
+}
 
-    //obtiene la lista 
-    let lista = document.getElementById("character"); //obtiene la lista de personajes
+/**
+ * loadMore 
+ * Call @function getElementButton
+ */
+function loadMore(){ //obtiene el boton de cargar mas
+    getElementButton(document, 'get');
+}
 
-    //lista los personajes 
-    for (let index = 0; index < resultCount; index++) { //lista los personajes
-        let character = data.results[index]; //obtiene la lista de personajes
-        let name = character.name; //obtiene el nombre del personaje
-        let gender = character.gender; //obtiene el genero del personaje
-        let image = character.image; //obtiene la imagen del personaje
 
-        //obtiene la lista de personajes
-        lista.innerHTML += `<li>
-        <h2>${name}</h2>
-        <p>${gender}<p>
-        <img src="${image}" alt="${name}">
-        </li>`;
-        console.log(name); //muestra el nombre del personaje
+/**
+ * getElementButton
+ * 
+ * @param {object} elementButton 
+ * @param {object} button 
+ * @param {string} operation
+ */
+function getElementButton(elementButton, operation = 'get', info = null){
+    const button = elementButton.getElementById("loadMore");
+    if(operation == 'get'){
+          const next = button.getAttribute("data-next"); //obtiene la informacion de la API boton
+        if(next =="" || next== null){ //obtiene la informacion de la API boton
+            console.log("no hay url"); //muestra que no hay url
+        } else {
+            requestData(next); //llama a la funcion requestData con la informacion de la API boton
+        } 
+    }else{
+        button.setAttribute("data-next", (info.next==null)?'':info.next); //obtiene la informacion de la API boton
+        button.setAttribute("data-prev", (info.prev==null)?'':info.prev); //obtiene la informacion de la API boton
     }
 }
-//carga mas personajes 
-function loadMore(){
-    const button = document.getElementById("loadMore"); //obtiene el boton de cargar mas
-    const next = button.getAttribute("data-next"); //obtiene la informacion de la API boton
-    if(next =="" || next== null){ //obtiene la informacion de la API boton
-        console.log("no hay url"); //muestra que no hay url
-    } else {
-        requestData(next); //llama a la funcion requestData con la informacion de la API boton
-    }   
-}
+/**
+ * renderHtml
+ * @param {object} data 
+ * @param {object} element
+ */
+function renderHtml(data){
+let element = document.getElementById("character");
+    let resultCount = data.results.length;
     
+    for(let index = 0; index < resultCount; index++){
+        
+        let character = data.results[index];
+        
+        element.innerHTML += `
+        <li>
+            <h2>${character.name}</h2>
+            <p>${character.gender}</p>
+            <img src="${character.image}" alt="${character.name}">
+        </li>`;
+    }
+
+}
+const response = requestData(url_api); 
