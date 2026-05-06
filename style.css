@@ -1,0 +1,224 @@
+:root {
+    --portal-green: #97ce4c;
+    --rick-cyan: #00b0c8;
+    --morty-yellow: #f0e14a;
+    --dark-bg: #0b0d17;
+    --glass-bg: rgba(255, 255, 255, 0.05);
+    --glass-border: rgba(255, 255, 255, 0.1);
+    --neon-glow: 0 0 15px rgba(151, 206, 76, 0.5);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: var(--dark-bg);
+    background-image: 
+        radial-gradient(circle at 50% 50%, rgba(151, 206, 76, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(0, 176, 200, 0.1) 0%, transparent 40%);
+    color: #fff;
+    font-family: 'Inter', sans-serif;
+    min-height: 100vh;
+    padding: 2rem;
+    overflow-x: hidden;
+}
+
+main {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+main::before {
+    content: 'RICK AND MORTY ARCHIVE';
+    font-family: 'Orbitron', sans-serif;
+    font-size: 3rem;
+    color: var(--portal-green);
+    text-shadow: 0 0 20px var(--portal-green);
+    margin-bottom: 2rem;
+    letter-spacing: 5px;
+    text-align: center;
+    animation: pulseGlow 2s infinite;
+}
+
+@media (max-width: 600px) {
+    main::before {
+        font-size: 1.5rem;
+    }
+}
+
+/* Removed unused h1 selector */
+
+/* Character Grid */
+#character {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 2.5rem;
+    width: 100%;
+    list-style: none;
+    margin-bottom: 4rem;
+}
+
+/* Character Card */
+#character li {
+    background: var(--glass-bg);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid var(--glass-border);
+    border-radius: 20px;
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    position: relative;
+    overflow: hidden;
+    animation: portalIn 0.8s ease-out backwards;
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+}
+
+#character li:hover {
+    transform: translateY(-10px) scale(1.02);
+    border-color: var(--portal-green);
+    box-shadow: 0 10px 30px rgba(151, 206, 76, 0.2), var(--neon-glow);
+}
+
+#character li::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: conic-gradient(
+        from 0deg,
+        transparent,
+        var(--portal-green),
+        transparent 30%
+    );
+    animation: rotate 4s linear infinite;
+    opacity: 0;
+    transition: opacity 0.3s;
+    z-index: -1;
+}
+
+#character li:hover::before {
+    opacity: 0.3;
+}
+
+#character li img {
+    width: 100%;
+    border-radius: 12px;
+    margin-bottom: 1.5rem;
+    border: 3px solid var(--glass-border);
+    transition: border-color 0.3s;
+}
+
+#character li:hover img {
+    border-color: var(--portal-green);
+}
+
+#character li h2 {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.2rem;
+    color: var(--morty-yellow);
+    margin-bottom: 0.5rem;
+    text-align: center;
+}
+
+#character li p {
+    font-size: 0.9rem;
+    color: var(--rick-cyan);
+    text-transform: uppercase;
+    font-weight: 600;
+    letter-spacing: 1px;
+}
+
+/* Load More Button */
+#loadMore {
+    background: transparent;
+    border: 2px solid var(--portal-green);
+    color: var(--portal-green);
+    font-family: 'Orbitron', sans-serif;
+    padding: 1rem 2.5rem;
+    font-size: 1.1rem;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s;
+    position: relative;
+    overflow: hidden;
+    box-shadow: var(--neon-glow);
+    margin-bottom: 2rem;
+    animation: pulseGlow 2s infinite;
+}
+
+#loadMore:hover {
+    background: var(--portal-green);
+    color: var(--dark-bg);
+    box-shadow: 0 0 30px var(--portal-green);
+    transform: scale(1.05);
+}
+
+#loadMore:active {
+    transform: scale(0.95);
+}
+
+/* Animations */
+@keyframes portalIn {
+    0% {
+        transform: scale(0) rotate(-180deg);
+        opacity: 0;
+        filter: hue-rotate(90deg);
+    }
+    100% {
+        transform: scale(1) rotate(0deg);
+        opacity: 1;
+        filter: hue-rotate(0deg);
+    }
+}
+
+@keyframes rotate {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+@keyframes pulseGlow {
+    0% { box-shadow: 0 0 5px rgba(151, 206, 76, 0.4); }
+    50% { box-shadow: 0 0 20px rgba(151, 206, 76, 0.8); }
+    100% { box-shadow: 0 0 5px rgba(151, 206, 76, 0.4); }
+}
+
+/* Float effect for character cards (staggered) */
+#character li {
+    animation: portalIn 0.6s ease-out backwards, float 3s ease-in-out infinite alternate;
+}
+
+/* Staggered delay for portalIn */
+#character li:nth-child(2n) { animation-delay: 0.1s, 0.5s; }
+#character li:nth-child(3n) { animation-delay: 0.2s, 1s; }
+#character li:nth-child(4n) { animation-delay: 0.3s, 1.5s; }
+
+@keyframes float {
+    0% { transform: translateY(0); }
+    100% { transform: translateY(-10px); }
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+    body {
+        padding: 1rem;
+    }
+    
+    h1 {
+        font-size: 1.5rem;
+    }
+    
+    #character {
+        gap: 1.5rem;
+    }
+}

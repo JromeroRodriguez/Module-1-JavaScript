@@ -34,8 +34,10 @@ function loadMore(){ //obtiene el boton de cargar mas
  * @param {object} button 
  * @param {string} operation
  */
-function getElementButton(elementButton, operation = 'get', info = null){
-    const button = elementButton.getElementById("loadMore");
+function getElementButton(elementButton, operation = 'get', info = null, direction = 'next'){
+    const buttonId = direction == "next" ? "btnNext" : "btnPrev";
+    const button = elementButton.getElementById(buttonId);  
+    
     if(operation == 'get'){
           const next = button.getAttribute("data-next"); //obtiene la informacion de la API boton
         if(next =="" || next== null){ //obtiene la informacion de la API boton
