@@ -1,67 +1,85 @@
-
 const url_api = "https://rickandmortyapi.com/api/character";
+
+let isLoading = false;
+let characters = [];
 
 /** 
 * requestData 
 * send request to Endpoint
 * @param {string} url_api
-*
-*
 */
+async function requestData(url) {
+    if (isLoading) return;
+    isLoading = true;
+    document.getElementById("loading").style.display = "flex";
 
+    await new Promise(resolve => setTimeout(resolve, 500));
+    const response = await axios.get(url);
+    let data = response.data;
+    getElementButton(document, 'set', data.info);
+    characters = data.results;
+    renderHtml(characters); 
 
-async function requestData(url_api) {
-    const response = await fetch(url_api); //espera la respuesta de la API
-    let data = await response.json(); //espera la respuesta de la API en formato json
-    getElementButton(document, 'set', data.info); //obtiene la informacion de la API boton
-    renderHtml(data); 
-    
+    document.getElementById("loading").style.display = "none";
+    isLoading = false;
+   
 }
 
 /**
  * loadMore 
  * Call @function getElementButton
  */
-function loadMore(){ //obtiene el boton de cargar mas
-    getElementButton(document, 'get');
+function loadMore(direction){
+    getElementButton(document, 'get', null, direction);
 }
-
 
 /**
  * getElementButton
- * 
  * @param {object} elementButton 
- * @param {object} button 
  * @param {string} operation
+ * @param {object} info
+ * @param {string} direction
  */
 function getElementButton(elementButton, operation = 'get', info = null, direction = 'next'){
     const buttonId = direction == "next" ? "btnNext" : "btnPrev";
     const button = elementButton.getElementById(buttonId);  
     
     if(operation == 'get'){
-          const next = button.getAttribute("data-next"); //obtiene la informacion de la API boton
-        if(next =="" || next== null){ //obtiene la informacion de la API boton
-            console.log("no hay url"); //muestra que no hay url
+        const url = button.getAttribute(direction == "next" ? "data-next" : "data-prev");
+        if(url == "" || url == null){
+            console.log("no hay url");
         } else {
-            requestData(next); //llama a la funcion requestData con la informacion de la API boton
+            requestData(url);
         } 
-    }else{
-        button.setAttribute("data-next", (info.next==null)?'':info.next); //obtiene la informacion de la API boton
-        button.setAttribute("data-prev", (info.prev==null)?'':info.prev); //obtiene la informacion de la API boton
+    } else {
+        const btnNext = elementButton.getElementById("btnNext");
+        const btnPrev = elementButton.getElementById("btnPrev");
+        
+        btnNext.setAttribute("data-next", (info.next==null)?'':info.next);
+        btnPrev.setAttribute("data-prev", (info.prev==null)?'':info.prev);
+        
+        btnNext.disabled = (info.next == null);
+        btnPrev.disabled = (info.prev == null);
+
+        const pageParam = new URL(info.next ?? info.prev).searchParams.get('page');
+        const currentPage = Number(pageParam);
+        const totalPages = info.pages;
+        const page = info.next ? currentPage - 1 : totalPages;
+        document.getElementById('pageIndicator').textContent = `Page ${page} of ${totalPages}`;
     }
 }
+
 /**
  * renderHtml
- * @param {object} data 
- * @param {object} element
+ * @param {Array} data
  */
 function renderHtml(data){
-let element = document.getElementById("character");
-    let resultCount = data.results.length;
+    let element = document.getElementById("character");
+    element.innerHTML = '';
+    let resultCount = data.length;
     
     for(let index = 0; index < resultCount; index++){
-        
-        let character = data.results[index];
+        let character = data[index];
         
         element.innerHTML += `
         <li>
@@ -70,6 +88,17 @@ let element = document.getElementById("character");
             <img src="${character.image}" alt="${character.name}">
         </li>`;
     }
-
 }
+
+function filterByGender(){
+    const gender = document.getElementById("filterGender").value;
+    
+    if(gender == ""){
+        renderHtml(characters);
+    } else {
+        const filtered = characters.filter(c => c.gender === gender);
+        renderHtml(filtered);
+    }
+}
+
 const response = requestData(url_api); 
