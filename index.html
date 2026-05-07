@@ -1,51 +1,53 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en"> <!-- Declaración del idioma del documento -->
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8"> <!-- Codificación de caracteres universal -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Configuración para diseño responsive -->
     
-    <title>Rick & Morty Archive</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <title>Rick & Morty Archive</title> <!-- Título que aparece en la pestaña del navegador -->
+    <link rel="stylesheet" href="style.css"> <!-- Enlace a la hoja de estilos personalizada -->
+    <link rel="preconnect" href="https://fonts.googleapis.com"> <!-- Preconexión para optimizar carga de fuentes -->
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet"> <!-- Importación de fuentes de Google -->
 </head>
 <body>
 
-    <header id="site-header">
+    <header id="site-header"> <!-- Cabecera fija con el logo y título -->
         <div class="header-inner">
-            <img src="img/logo.png" alt="Rick and Morty Logo" id="site-logo">
+            <img src="img/logo.png" alt="Rick and Morty Logo" id="site-logo"> <!-- Logo oficial de la serie -->
             <div class="header-text">
-                <h1 id="site-title">Rick & Morty API</h1>
-                <span class="site-subtitle">Character Archive</span>
+                <h1 id="site-title">Rick & Morty API</h1> <!-- Título principal del sitio -->
+                <span class="site-subtitle">Character Archive</span> <!-- Subtítulo descriptivo -->
             </div>
         </div>
     </header>
 
-    <main>
-        <div class="filter-bar">
+    <main> <!-- Contenido principal de la página -->
+        <div class="filter-bar"> <!-- Barra superior para filtrar personajes -->
             <label for="filterGender">Filter by genre:</label>
-            <select id="filterGender" onchange="filterByGender()">
-                <option value="">ALL</option>
+            <select id="filterGender" onchange="filterByGender()"> <!-- Selector que dispara la función de filtrado -->
+                <option value="">ALL</option> <!-- Opción para mostrar todos los géneros -->
                 <option value="Male">Male</option>
                 <option value="Female">Female</option>
                 <option value="unknown">Unknown</option>
             </select>
         </div>
-        <div id="loading" style="display:none">
-            <div class="loading-spinner"></div>
-            <span class="loading-text">Loading...</span>
-        </div>
-        <ul id="character"></ul>
 
-        <div class="pagination">
-            <button id="btnPrev" data-prev="" onclick="loadMore('prev')">&#8592; Previous</button>
-            <span id="pageIndicator"></span>
-            <button id="btnNext" data-next="" onclick="loadMore('next')">Next &#8594;</button>
+        <div id="loading" style="display:none"> <!-- Contenedor del spinner de carga (oculto por defecto) -->
+            <div class="loading-spinner"></div> <!-- Círculo animado de carga -->
+            <span class="loading-text">Loading...</span> <!-- Texto de espera -->
+        </div>
+
+        <ul id="character"></ul> <!-- Contenedor donde se inyectarán las tarjetas de los personajes mediante JS -->
+
+        <div class="pagination"> <!-- Sección inferior con controles de navegación -->
+            <button id="btnPrev" data-prev="" onclick="loadMore('prev')">&#8592; Previous</button> <!-- Botón para ir a la página anterior -->
+            <span id="pageIndicator"></span> <!-- Indicador visual de la página actual (ej: Page 1 of 42) -->
+            <button id="btnNext" data-next="" onclick="loadMore('next')">Next &#8594;</button> <!-- Botón para ir a la página siguiente -->
         </div>
     </main>
 
-    <script src="https://cdn.jsdelivr.net/npm/axios@1.16.0/dist/axios.min.js"></script>
-    <script src="API.js"></script> 
+    <script src="https://cdn.jsdelivr.net/npm/axios@1.16.0/dist/axios.min.js"></script> <!-- Librería Axios para peticiones HTTP -->
+    <script src="API.js"></script> <!-- Lógica principal del proyecto -->
 </body>
 </html>

@@ -2,15 +2,15 @@
    Variables & Tokens
    =========================== */
 :root {
-    --portal-green: #97ce4c;
-    --rick-cyan: #00b0c8;
-    --morty-yellow: #f0e14a;
-    --dark-bg: #0b0d17;
-    --glass-bg: rgba(10, 12, 25, 0.65);
-    --glass-border: rgba(151, 206, 76, 0.18);
-    --neon-glow: 0 0 18px rgba(151, 206, 76, 0.55);
-    --card-radius: 20px;
-    --header-height: 90px;
+    --portal-green: #97ce4c; /* Color verde icónico de los portales */
+    --rick-cyan: #00b0c8; /* Color cian característico de la ropa de Rick */
+    --morty-yellow: #f0e14a; /* Color amarillo de la camiseta de Morty */
+    --dark-bg: #0b0d17; /* Fondo oscuro espacial */
+    --glass-bg: rgba(10, 12, 25, 0.65); /* Fondo traslúcido tipo cristal */
+    --glass-border: rgba(151, 206, 76, 0.18); /* Borde suave con tono portal */
+    --neon-glow: 0 0 18px rgba(151, 206, 76, 0.55); /* Efecto de resplandor neón */
+    --card-radius: 20px; /* Redondeado de las tarjetas */
+    --header-height: 90px; /* Altura de la cabecera */
 }
 
 /* ===========================
@@ -199,20 +199,20 @@ main::before {
    Character Card
    =========================== */
 #character li {
-    background: var(--glass-bg);
-    backdrop-filter: blur(14px);
-    -webkit-backdrop-filter: blur(14px);
-    border: 1px solid var(--glass-border);
-    border-radius: var(--card-radius);
-    padding: 1.4rem;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    position: relative;
-    overflow: hidden;
-    animation: portalIn 0.7s ease-out backwards, float 4s ease-in-out infinite alternate;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+    background: var(--glass-bg); /* Uso del fondo traslúcido */
+    backdrop-filter: blur(14px); /* Desenfoque de fondo (efecto cristal) */
+    -webkit-backdrop-filter: blur(14px); /* Soporte para Safari */
+    border: 1px solid var(--glass-border); /* Borde con el color del portal */
+    border-radius: var(--card-radius); /* Bordes redondeados */
+    padding: 1.4rem; /* Espaciado interno */
+    display: flex; /* Layout flexible */
+    flex-direction: column; /* Elementos apilados verticalmente */
+    align-items: center; /* Centrado horizontal */
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* Transición suave con rebote */
+    position: relative; /* Para posicionar elementos internos ::before */
+    overflow: hidden; /* Cortar lo que sobresalga (brillos) */
+    animation: portalIn 0.7s ease-out backwards, float 4s ease-in-out infinite alternate; /* Animaciones de entrada y flotación */
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5); /* Sombra para dar profundidad */
 }
 
 #character li:hover {
